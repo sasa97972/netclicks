@@ -24,14 +24,16 @@ leftMenu.addEventListener('click', event => {
     }
 });
 
-const cards = document.querySelectorAll('.tv-card');
+const showsList = document.querySelector('.tv-shows__list');
 
 const showCardBackdrop = ({ target }) => {
-    const image = target.querySelector('.tv-card__img');
+    const tvCard = target.closest('.tv-card');
 
-    if(!image) return;
+    if(!tvCard) return;
 
+    const image = tvCard.querySelector('.tv-card__img');
     const backdropLink = image.dataset.backdrop;
+
     if(backdropLink) {
         image.dataset.backdrop = image.src;
         image.src = backdropLink;
@@ -39,7 +41,6 @@ const showCardBackdrop = ({ target }) => {
     }
 }
 
-cards.forEach(card => {
-    card.addEventListener('mouseenter', showCardBackdrop, false);
-    card.addEventListener('mouseleave', showCardBackdrop, false);
-});
+showsList.addEventListener('mouseover', showCardBackdrop, false);
+showsList.addEventListener('mouseout', showCardBackdrop, false);
+
