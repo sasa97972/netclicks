@@ -15,12 +15,12 @@ const loader = new Loader();
 
 window.API_KEY = null;
 
-hamburger.addEventListener('click', () => {
+const openMenu = () => {
     leftMenu.classList.toggle('openMenu');
     hamburger.classList.toggle('open');
-});
+}
 
-document.body.addEventListener('click', ({target}) => {
+const closeMenu = ({target}) => {
     if (!target.closest('.left-menu')) {
         leftMenu.classList.remove('openMenu');
         hamburger.classList.remove('open');
@@ -28,9 +28,9 @@ document.body.addEventListener('click', ({target}) => {
             item.classList.remove('active');
         });
     }
-});
+};
 
-leftMenu.addEventListener('click', e => {
+const openDropdown = e => {
     e.preventDefault();
 
     const {target} = e;
@@ -41,7 +41,7 @@ leftMenu.addEventListener('click', e => {
         leftMenu.classList.add('openMenu');
         hamburger.classList.add('open');
     }
-});
+};
 
 const showCardBackdrop = ({target}) => {
     const tvCard = target.closest('.tv-card');
@@ -57,10 +57,7 @@ const showCardBackdrop = ({target}) => {
     }
 }
 
-showsList.addEventListener('mouseover', showCardBackdrop, false);
-showsList.addEventListener('mouseout', showCardBackdrop, false);
-
-showsList.addEventListener('click', e => {
+const showModal = e => {
     e.preventDefault();
 
     const {target} = e;
@@ -69,16 +66,16 @@ showsList.addEventListener('click', e => {
     if (tvCard) {
         modal.showModal(tvCard.dataset.showId);
     }
-}, false);
+};
 
-modal.ui.modal.addEventListener('click', ({target}) => {
+const closeModal = ({target}) => {
     const isModal = target.classList.contains('modal'),
         isCross = target.closest('.cross');
 
     if (isModal || isCross) {
         modal.hideModal();
     }
-});
+};
 
 const renderCards = ({results}) => {
     showsList.innerHTML = '';
@@ -94,7 +91,7 @@ const renderCards = ({results}) => {
     loader.hideLoader();
 }
 
-searchForm.addEventListener('submit', (e) => {
+const searchResults = e => {
     e.preventDefault();
     const value = searchInput.value.trim();
 
@@ -103,9 +100,21 @@ searchForm.addEventListener('submit', (e) => {
     loader.showLoader(showContainer);
     new DBService().getSearchResult(value).then(renderCards);
     searchInput.value = '';
-});
+};
+
+const registerListeners = () => {
+    hamburger.addEventListener('click', openMenu, false);
+    document.body.addEventListener('click', closeMenu, false);
+    leftMenu.addEventListener('click', openDropdown, false);
+    showsList.addEventListener('mouseover', showCardBackdrop, false);
+    showsList.addEventListener('mouseout', showCardBackdrop, false);
+    showsList.addEventListener('click', showModal, false);
+    modal.ui.modal.addEventListener('click', closeModal, false);
+    searchForm.addEventListener('submit', searchResults, false);
+};
 
 const main = () => {
+    registerListeners();
     loader.showLoader(showContainer);
     new DBService().getTestData().then(renderCards);
 };
