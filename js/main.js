@@ -19,6 +19,9 @@ document.body.addEventListener('click', ({target}) => {
     if (!target.closest('.left-menu')) {
         leftMenu.classList.remove('openMenu')
         hamburger.classList.remove('open');
+        leftMenu.querySelectorAll('.dropdown').forEach(item => {
+            item.classList.remove('active');
+        });
     }
 });
 
