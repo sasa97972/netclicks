@@ -1,14 +1,19 @@
 import DBService from "./classes/DBService.js";
+import Modal from "./classes/Modal.js";
+import Loader from "./classes/Loader.js";
+import { IMG_URL, DEFAULT_IMG } from "./constants.js";
 
 const leftMenu = document.querySelector('.left-menu'),
     hamburger = document.querySelector('.hamburger'),
     showsList = document.querySelector('.tv-shows__list'),
-    modal = document.querySelector('.modal');
+    showContainer = document.querySelector('.tv-shows'),
+    searchForm = document.querySelector('.search__form'),
+    searchInput = document.querySelector('.search__form-input');
+
+const modal = new Modal();
+const loader = new Loader();
 
 window.API_KEY = null;
-
-const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2',
-    DEFAULT_IMG = 'img/no-poster.jpg';
 
 hamburger.addEventListener('click', () => {
     leftMenu.classList.toggle('openMenu');
@@ -25,8 +30,10 @@ document.body.addEventListener('click', ({target}) => {
     }
 });
 
-leftMenu.addEventListener('click', event => {
-    const target = event.target;
+leftMenu.addEventListener('click', e => {
+    e.preventDefault();
+
+    const {target} = e;
     const dropdown = target.closest('.dropdown');
 
     if (dropdown) {
@@ -60,27 +67,28 @@ showsList.addEventListener('click', e => {
     const tvCard = target.closest('.tv-card');
 
     if (tvCard) {
-        document.body.style.overflow = 'hidden';
-        modal.classList.remove('hide');
+        modal.showModal(tvCard.dataset.showId);
     }
 }, false);
 
-modal.addEventListener('click', ({target}) => {
+modal.ui.modal.addEventListener('click', ({target}) => {
     const isModal = target.classList.contains('modal'),
         isCross = target.closest('.cross');
 
     if (isModal || isCross) {
-        document.body.style.overflow = '';
-        modal.classList.add('hide');
+        modal.hideModal();
     }
 });
 
 const renderCards = ({results}) => {
+    showsList.innerHTML = '';
+
     results.forEach(({
                          vote_average: vote,
                          poster_path: poster,
                          backdrop_path: backdrop,
-                         name: title
+                         name: title,
+                         id
                      }) => {
 
         const posterURI = poster ? `${IMG_URL + poster}` : DEFAULT_IMG;
@@ -89,8 +97,9 @@ const renderCards = ({results}) => {
 
         const card = document.createElement('li');
         card.classList.add('tv-shows__item');
+        card.showId = id;
         card.innerHTML = `
-            <a href="#" class="tv-card">
+            <a href="#" class="tv-card" data-show-id="${id}">
                 ${voteEl}
                 <img class="tv-card__img"
                      src="${posterURI}"
@@ -102,9 +111,27 @@ const renderCards = ({results}) => {
 
         showsList.append(card);
     });
+
+    if(!results.length) {
+        showsList.innerHTML = '<li><h2>Ничего не найдно</h2></li>';
+    }
+
+    loader.hideLoader();
 }
 
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const value = searchInput.value.trim();
+
+    if(!value) return;
+
+    loader.showLoader(showContainer);
+    new DBService().getSearchResult(value).then(renderCards);
+    searchInput.value = '';
+});
+
 const main = () => {
+    loader.showLoader(showContainer);
     new DBService().getTestData().then(renderCards);
 };
 
