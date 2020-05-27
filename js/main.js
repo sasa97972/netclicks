@@ -1,7 +1,7 @@
 import DBService from "./classes/DBService.js";
 import Modal from "./classes/Modal.js";
 import Loader from "./classes/Loader.js";
-import { IMG_URL, DEFAULT_IMG } from "./constants.js";
+import Card from "./classes/Card.js";
 
 const leftMenu = document.querySelector('.left-menu'),
     hamburger = document.querySelector('.hamburger'),
@@ -83,33 +83,8 @@ modal.ui.modal.addEventListener('click', ({target}) => {
 const renderCards = ({results}) => {
     showsList.innerHTML = '';
 
-    results.forEach(({
-                         vote_average: vote,
-                         poster_path: poster,
-                         backdrop_path: backdrop,
-                         name: title,
-                         id
-                     }) => {
-
-        const posterURI = poster ? `${IMG_URL + poster}` : DEFAULT_IMG;
-        const backdropURI = backdrop ? `${IMG_URL + backdrop}` : '';
-        const voteEl = vote ? `<span class="tv-card__vote">${vote}</span>` : '';
-
-        const card = document.createElement('li');
-        card.classList.add('tv-shows__item');
-        card.showId = id;
-        card.innerHTML = `
-            <a href="#" class="tv-card" data-show-id="${id}">
-                ${voteEl}
-                <img class="tv-card__img"
-                     src="${posterURI}"
-                     data-backdrop="${backdropURI}"
-                     alt="${title}">
-                <h4 class="tv-card__head">${title}</h4>
-            </a>
-        `;
-
-        showsList.append(card);
+    results.forEach(item => {
+        showsList.append(Card.buildCard(item));
     });
 
     if(!results.length) {
