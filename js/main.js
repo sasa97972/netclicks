@@ -1,9 +1,11 @@
+import DBService from "./classes/DBService.js";
+
 const leftMenu = document.querySelector('.left-menu'),
     hamburger = document.querySelector('.hamburger'),
     showsList = document.querySelector('.tv-shows__list'),
     modal = document.querySelector('.modal');
 
-let API_KEY;
+window.API_KEY = null;
 
 const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2',
     DEFAULT_IMG = 'img/no-poster.jpg';
@@ -70,26 +72,6 @@ modal.addEventListener('click', ({target}) => {
     }
 });
 
-class DBService {
-    async getData(url) {
-        const response = await fetch(url);
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error(`Error ${response.status}`);
-        }
-    }
-
-    getTestData() {
-        return this.getData('test.json');
-    }
-
-    async downloadAPIKey() {
-        const response = await fetch('config/api.key');
-        API_KEY = await response.text();
-    }
-}
-
 const renderCards = ({results}) => {
     results.forEach(({
                          vote_average: vote,
@@ -124,4 +106,3 @@ const main = () => {
 };
 
 new DBService().downloadAPIKey().then(main);
-
