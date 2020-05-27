@@ -12,12 +12,16 @@ export default class Modal {
             description: document.querySelector('.description'),
             link: document.querySelector('.modal__link'),
         }
+
+        this.modalLoader = document.querySelector('.preloader');
     }
 
     showModal(id) {
+        this.modalLoader.style.display = 'block';
         new DBService().getDetailsData(id)
             .then(response => this.renderModal(response))
             .then(() => {
+                this.modalLoader.style.display = 'none';
                 document.body.style.overflow = 'hidden';
                 this.ui.modal.classList.remove('hide');
             });
