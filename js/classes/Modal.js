@@ -18,7 +18,7 @@ export default class Modal {
 
     showModal(id) {
         this.modalLoader.style.display = 'block';
-        new DBService().getDetailsData(id)
+        DBService.getDetailsData(id)
             .then(response => this.renderModal(response))
             .then(() => {
                 this.modalLoader.style.display = 'none';

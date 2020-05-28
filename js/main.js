@@ -99,7 +99,7 @@ const searchResults = e => {
     if(!value) return;
 
     loader.showLoader(showContainer);
-    new DBService().getSearchResult(value).then(renderCards);
+    DBService.getSearchResult(value).then(renderCards);
     searchInput.value = '';
 };
 
@@ -117,7 +117,7 @@ const registerListeners = () => {
 const main = () => {
     registerListeners();
     loader.showLoader(showContainer);
-    new DBService().getTestData().then(renderCards);
+    DBService.getTestData().then(renderCards);
 };
 
-new DBService().downloadAPIKey().then(main);
+DBService.downloadAPIKey().then(main);
