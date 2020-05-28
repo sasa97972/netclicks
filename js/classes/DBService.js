@@ -21,10 +21,10 @@ export default class DBService {
     }
 
     static getSearchResult(query) {
-        return this.getData(`${DBService.SERVER_URL}/search/tv?api_key=${window.API_KEY}&query=${encodeURIComponent(query)}&language=${DBService.LANGUAGE}`);
+        return this.getData(`${this.SERVER_URL}/search/tv?api_key=${window.API_KEY}&query=${encodeURIComponent(query)}&language=${this.LANGUAGE}`);
     }
 
     static getDetailsData(id) {
-        return this.getData(`${DBService.SERVER_URL}/tv/${id}?api_key=${window.API_KEY}&language=${DBService.LANGUAGE}`);
+        return this.getData(`${this.SERVER_URL}/tv/${id}?api_key=${window.API_KEY}&language=${this.LANGUAGE}`);
     }
 }
