@@ -12,7 +12,7 @@ export default class DBService {
     }
 
     static getTestData() {
-        return DBService.getData('test.json');
+        return this.getData('test.json');
     }
 
     static async downloadAPIKey() {
@@ -21,10 +21,10 @@ export default class DBService {
     }
 
     static getSearchResult(query) {
-        return DBService.getData(`${DBService.SERVER_URL}/search/tv?api_key=${window.API_KEY}&query=${encodeURIComponent(query)}&language=${DBService.LANGUAGE}`);
+        return this.getData(`${DBService.SERVER_URL}/search/tv?api_key=${window.API_KEY}&query=${encodeURIComponent(query)}&language=${DBService.LANGUAGE}`);
     }
 
     static getDetailsData(id) {
-        return DBService.getData(`${DBService.SERVER_URL}/tv/${id}?api_key=${window.API_KEY}&language=${DBService.LANGUAGE}`);
+        return this.getData(`${DBService.SERVER_URL}/tv/${id}?api_key=${window.API_KEY}&language=${DBService.LANGUAGE}`);
     }
 }
