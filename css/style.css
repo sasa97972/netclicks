@@ -29,6 +29,7 @@
 html {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 *,
@@ -460,6 +461,10 @@ main {
 
 .tv-shows__head {
     margin: 15px 0;
+}
+
+.tv-shows__head_danger {
+    color: red;
 }
 
 .tv-shows__list {
@@ -1216,3 +1221,23 @@ div:after {
     transform: rotate3d(0, 1, 0, 180deg);
 }
 
+.pagination {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.pagination li:not(:last-child) {
+    margin-right: 10px;
+}
+
+.pages {
+    display: block;
+    padding: 3px;
+    color: blue;
+}
+
+.pages_active {
+    color: red
+}

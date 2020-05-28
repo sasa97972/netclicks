@@ -51,6 +51,11 @@ export default class Modal {
         this.ui.genres.innerHTML = genres.reduce((html, item) => `${html} <li>${item.name}</li>`, '');
         this.ui.rating.textContent = voteAverage;
         this.ui.description.textContent = overview || 'Отсутствует';
-        this.ui.link.href = homepage;
+        if(homepage) {
+            this.ui.link.href = homepage;
+            this.ui.link.style.display = '';
+        } else {
+            this.ui.link.style.display = 'none';
+        }
     }
 }
