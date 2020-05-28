@@ -21,9 +21,14 @@ export default class Modal {
         DBService.getDetailsData(id)
             .then(response => this.renderModal(response))
             .then(() => {
-                this.modalLoader.style.display = 'none';
                 document.body.style.overflow = 'hidden';
                 this.ui.modal.classList.remove('hide');
+            })
+            .catch(err => {
+                alert("По данному сериалу нет никакой информации");
+            })
+            .finally(() => {
+                this.modalLoader.style.display = 'none';
             });
     }
 
