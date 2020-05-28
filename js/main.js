@@ -60,11 +60,12 @@ const showCardBackdrop = ({target}) => {
 const showModal = e => {
     e.preventDefault();
 
-    const {target} = e;
-    const tvCard = target.closest('.tv-card');
+    const {target} = e,
+        tvCard = target.closest('.tv-card'),
+        showID = tvCard.dataset.showId;
 
-    if (tvCard) {
-        modal.showModal(tvCard.dataset.showId);
+    if (tvCard && showID) {
+        modal.showModal(showID);
     }
 };
 

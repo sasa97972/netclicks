@@ -16,7 +16,7 @@ export default class Card {
         card.classList.add('tv-shows__item');
         card.showId = id;
         card.innerHTML = `
-            <a href="#" class="tv-card" data-show-id="${id}">
+            <a href="#" class="tv-card" data-show-id="${poster ? id : ''}">
                 ${voteEl}
                 <img class="tv-card__img"
                      src="${posterURI}"

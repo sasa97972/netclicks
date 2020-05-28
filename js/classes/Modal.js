@@ -5,11 +5,11 @@ export default class Modal {
     constructor() {
         this.ui = {
             modal: document.querySelector('.modal'),
-            image: document.querySelector('.tv-card__img'),
+            image: document.querySelector('.modal .tv-card__img'),
             title: document.querySelector('.modal__title'),
-            genres: document.querySelector('.genres-list'),
-            rating: document.querySelector('.rating'),
-            description: document.querySelector('.description'),
+            genres: document.querySelector('.modal .genres-list'),
+            rating: document.querySelector('.modal .rating'),
+            description: document.querySelector('.modal .description'),
             link: document.querySelector('.modal__link'),
         }
 
@@ -45,7 +45,7 @@ export default class Modal {
         this.ui.title.textContent = title;
         this.ui.genres.innerHTML = genres.reduce((html, item) => `${html} <li>${item.name}</li>`, '');
         this.ui.rating.textContent = voteAverage;
-        this.ui.description.textContent = overview;
+        this.ui.description.textContent = overview || 'Отсутствует';
         this.ui.link.href = homepage;
     }
 }

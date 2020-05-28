@@ -1,8 +1,11 @@
 export default class Loader {
     constructor() {
+        const loaderContainer = document.createElement('div');
+        loaderContainer.className = ('loadingContainer');
         const loader = document.createElement('div');
         loader.className = ('loading');
-        this.loader = loader;
+        loaderContainer.append(loader);
+        this.loader = loaderContainer;
     }
 
     showLoader(container) {
