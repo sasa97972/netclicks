@@ -108,7 +108,7 @@ const closeModal = ({target}) => {
     }
 };
 
-const renderCards = ({results, total_pages}, title) => {
+const renderCards = ({results, total_pages, page}, title) => {
     showsList.innerHTML = '';
 
     results.forEach(item => {
@@ -118,6 +118,7 @@ const renderCards = ({results, total_pages}, title) => {
     tvShowsHead.textContent = title ? title : results.length ? 'Результат поиска' : 'По вашему запросу ничего не найдено';
     results.length ? tvShowsHead.classList.remove('tv-shows__head_danger') : tvShowsHead.classList.add('tv-shows__head_danger');
 
+    paginator.changePage(page);
     paginator.renderPages(total_pages);
 
     loader.hideLoader();
@@ -144,7 +145,6 @@ const changePage = e => {
 
     loader.showLoader(showContainer);
     DBService.getNextPage(page).then(response => {
-        paginator.changePage(page);
         renderCards(response, null);
         window.scrollTo(0, 0);
     });
